@@ -2,6 +2,7 @@
     "name": "isidoro/jstree",
     "description": "php component to abstract the filesystem behind jstree plugin",
     "keywords":["jstree"],
+    "license": "MIT",
     "authors":[
         {
             "name":"Isidoro Mercogliano",
