@@ -21,8 +21,8 @@ header('Content-Type: application/json');
 echo (new JstreeFileSystem('directory_to_explore',$config))->getList();
 /**
  * Meaning:
- * explorer the path  'defaultPathForData/directory_to_explore'
- * and get in the json format for jstree plugin
+ * explore the path  'defaultPathForData/directory_to_explore'
+ * get in the json format for jstree plugin
  */
 
 ```
