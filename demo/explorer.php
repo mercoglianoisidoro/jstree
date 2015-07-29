@@ -1,22 +1,24 @@
 <?php
 
-
-
-include '../vendor/autoload.php';
+if (file_exists('../vendor/autoload.php')) {
+    include '../vendor/autoload.php';
+} else {
+    //to be run in the vendor directory
+    include '../../../../vendor/autoload.php';
+}
 
 use isidoro\jstree\filesystem\JstreeFileSystem;
 use isidoro\jstree\filesystem\JstreeConfig;
 
+$config = new JstreeConfig(array('basePath' => '../defaultPathForData/')); //can throw exceptions
 
-$config = new JstreeConfig(array('basePath'=>'../defaultPathForData/')); //can throw exceptions
-
-$path = '';//demanded path.
-if (isset($_GET['path'])){ 
+$path = ''; //demanded path.
+if (isset($_GET['path'])) {
     $path = $_GET['path'];
 }
 
 header('Content-Type: application/json');
-echo (new JstreeFileSystem($path,$config))->getList();
+echo (new JstreeFileSystem($path, $config))->getList();
 
 /**
  * Meaning:
