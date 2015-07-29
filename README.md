@@ -27,7 +27,9 @@ echo (new JstreeFileSystem('directory_to_explore',$config))->getList();
 
 
 
-See the 'demo' directory to see a complete example
+See the 'demo' directory to have a complete example (js + php)
+
+
 
 ```
 
