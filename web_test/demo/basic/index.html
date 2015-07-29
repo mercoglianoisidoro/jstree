@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>jstree basic demos</title>
+        <style>
+            html { margin:0; padding:0; font-size:62.5%; }
+            body { max-width:800px; min-width:300px; margin:0 auto; padding:20px 10px; font-size:14px; font-size:1.4em; }
+            h1 { font-size:1.8em; }
+            .demo { overflow:auto; border:1px solid silver; min-height:100px; }
+        </style>
+        <link rel="stylesheet" href="./../../dist/themes/default/style.min.css" />
+    </head>
+    <body>
+
+
+        <h1>AJAX demo</h1>
+        <div id="ajax" class="demo"></div>
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        <script src="./../../dist/jstree.min.js"></script>
+
+        <script>
+
+            // ajax demo
+            $('#ajax').jstree({
+                'core': {
+                    'data': {
+                        'url': function (node) {
+                            console.log(node);
+                            return node.id === '#' ?
+                                    './../../explorer.php' : './../../explorer.php?path=' + node.id;
+                        },
+                        "dataType": "json" // needed only if you do not supply JSON headers
+                    }
+                }
+            });
+
+        </script>
+        This is one of the examples shown here: <a href="https://github.com/vakata/jstree">https://github.com/vakata/jstree</a><br>
+        You can change the base path in the file explorer.php
+        
+    </body>
+</html>
