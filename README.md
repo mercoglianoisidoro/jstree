@@ -25,6 +25,10 @@ echo (new JstreeFileSystem('directory_to_explore',$config))->getList();
  * get it in the json format for the jstree plugin
  */
 
+
+
+See the 'demo' directory to see a complete example
+
 ```
 
 ## Change log

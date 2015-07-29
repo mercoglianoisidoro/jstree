@@ -9,7 +9,7 @@
             h1 { font-size:1.8em; }
             .demo { overflow:auto; border:1px solid silver; min-height:100px; }
         </style>
-        <link rel="stylesheet" href="./../../dist/themes/default/style.min.css" />
+        <link rel="stylesheet" href="../dist/themes/default/style.min.css" />
     </head>
     <body>
 
@@ -19,7 +19,7 @@
 
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-        <script src="./../../dist/jstree.min.js"></script>
+        <script src="../dist/jstree.min.js"></script>
 
         <script>
 
@@ -30,7 +30,7 @@
                         'url': function (node) {
                             console.log(node);
                             return node.id === '#' ?
-                                    './../../explorer.php' : './../../explorer.php?path=' + node.id;
+                                    '../explorer.php' : '../explorer.php?path=' + node.id;
                         },
                         "dataType": "json" // needed only if you do not supply JSON headers
                     }
