@@ -22,7 +22,7 @@ echo (new JstreeFileSystem('directory_to_explore',$config))->getList();
 /**
  * Meaning:
  * explore the path  'defaultPathForData/directory_to_explore'
- * get in the json format for jstree plugin
+ * get it in the json format for the jstree plugin
  */
 
 ```
