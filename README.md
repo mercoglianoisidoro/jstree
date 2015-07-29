@@ -13,7 +13,18 @@ composer require isidoro/jstree
 ## Usage
 
 ``` php
-echo (new JstreeFileSystem('dir_to_explore'))->getList();
+
+$config = new JstreeConfig(array('basePath'=>'defaultPathForData/'));
+//this base path will be the root path for JstreeFileSystem
+
+header('Content-Type: application/json');
+echo (new JstreeFileSystem('directory_to_explore',$config))->getList();
+/**
+ * Meaning:
+ * explorer the path  'defaultPathForData/directory_to_explore'
+ * and get in the json format for jstree plugin
+ */
+
 ```
 
 ## Change log
