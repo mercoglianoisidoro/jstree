@@ -4,10 +4,15 @@ namespace isidoro\jstree\filesystem;
 
 class JstreeConfig {
 
-//    private $basePath = null;
-//    private $basePath = '../defaultPathForData';
-    private $basePath = '../';
+    private $basePath = '../defaultPathForData/';
     private $errorMessage = ''; //used during validation
+
+    /**
+     * Constructor
+     * @param array array for input data. Min Conf = array('basePath'=>'directory')
+     * @return \isidoro\jstree\filesystem\JstreeConfig
+     * @throws \InvalidArgumentException
+     */
 
     public function __construct($inputData = null) {
 
@@ -28,11 +33,16 @@ class JstreeConfig {
 
     public function setBasePath($basePath) {
         $this->isValidPath($basePath);
-
         $this->basePath = $basePath;
         return $this;
     }
 
+    /**
+     * Check for the path
+     * @param string $basePath
+     * @return \isidoro\jstree\filesystem\JstreeConfig
+     * @throws \DomainException in case path not valid (not readable or it's not a directory). 
+     */
     public function isValidPath($basePath) {
 
         if (!is_readable($basePath)) {

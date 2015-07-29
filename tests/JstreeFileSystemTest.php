@@ -22,12 +22,6 @@ class JstreeFileSystemTest extends \PHPUnit_Framework_TestCase {
     /**
      * Test constructor
      */
-    public function testConstructor() {
-
-        $jstreeFileSystem = new JstreeFileSystem();
-        $this->assertNotNull($jstreeFileSystem);
-    }
-
     public function testConstructor_with_config() {
 
         $jstreeFileSystem = new JstreeFileSystem('multiple_files', static::$jstreeConfig);

@@ -12,10 +12,17 @@ class JstreeFileSystem {
     private $requestedPath = '';
     private $dataNode = array(); //represent the json for the response
 
+    /**
+     * 
+     * @param type path to explore (using the base path set in the configs as root)
+     * @param JstreeConfig configurations
+     * @throws \DomainException in case of problem for the demanded path
+     */
+
     public function __construct($requestedPath = '', \isidoro\jstree\filesystem\JstreeConfig $jstreeConfig = null) {
 
         if ($jstreeConfig == null) {
-            $jstreeConfig = new JstreeConfig();
+            $jstreeConfig = new JstreeConfig(); //defaults
         }
 
         $this->basePath = $jstreeConfig->getBasePath();
@@ -35,8 +42,6 @@ class JstreeFileSystem {
         $basePathForSecurityChecks = realpath($jstreeConfig->getBasePath());
         $this->finder->filter(function (\SplFileInfo $file) use ($basePathForSecurityChecks) {
 
-//            $t = $basePathForSecurityChecks.PHP_EOL;
-//            $t2 = $file->getRealPath().PHP_EOL;
             if (strpos($file->getRealPath(), $basePathForSecurityChecks) === 0) {
                 return true;
             } else {
@@ -53,6 +58,11 @@ class JstreeFileSystem {
         return $this->requestedPath;
     }
 
+    /**
+     * Get the list of the directory contents in the  json format readable by jstree plugin
+     * @return json format for jstree plugin 
+     * @throws LogicException
+     */
     public function getList($width = 0) {
 
         $this->finder->depth($width)->sortByName();
@@ -69,10 +79,14 @@ class JstreeFileSystem {
         foreach ($this->finder->files() as $file) {
             $this->dataNode[] = new NodeElement($this->requestedPath, $file);
         }
-//        foreach ($this->dataNode as $value) {
-//            echo $value->text.PHP_EOL;
-//        }
-        return json_encode($this->dataNode); //TODO: check se ok
+
+        $result = json_encode($this->dataNode);
+
+        if ($result !== false) {
+            return $result;
+        } else {
+            throw new LogicException('impossible to decode data');
+        }
     }
 
 }
