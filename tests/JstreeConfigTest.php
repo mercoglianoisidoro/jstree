@@ -25,11 +25,32 @@ class JstreeConfigTest extends \PHPUnit_Framework_TestCase {
         $this->assertNotNull($jstreeConfig);
     }
 
-    public function testConstructor_with_array() {
+    public function testConstructor_with_simpleArray() {
 
         $jstreeConfig = new JstreeConfig(array('basePath' => static::$dataPath));
         $this->assertNotNull($jstreeConfig);
+        $this->assertTrue($jstreeConfig->getShowDirectories());
+        $this->assertTrue($jstreeConfig->getShowFiles());
     }
+    
+    public function testConstructor_withArray_showDirectories_option() {
+
+        $jstreeConfig = new JstreeConfig(array('basePath' => static::$dataPath,
+                                               'showDirectories' => false));
+        $this->assertNotNull($jstreeConfig);
+        $this->assertFalse($jstreeConfig->getShowDirectories());
+        $this->assertTrue($jstreeConfig->getShowFiles());
+    }
+    
+     public function testConstructor_withArray_showFiles_option() {
+
+        $jstreeConfig = new JstreeConfig(array('basePath' => static::$dataPath,
+                                               'showFiles' => false));
+        $this->assertNotNull($jstreeConfig);
+        $this->assertTrue($jstreeConfig->getShowDirectories());
+        $this->assertFalse($jstreeConfig->getShowFiles());
+    }
+    
 
     /**
      * @expectedException DomainException
@@ -40,7 +61,20 @@ class JstreeConfigTest extends \PHPUnit_Framework_TestCase {
         $jstreeConfig = new JstreeConfig(array('basePath' => static::$dataPath . 'single_file' . DIRECTORY_SEPARATOR . 'ciao.txt'));
         $this->assertNotNull($jstreeConfig);
     }
+  
+    public function testShowDirectories() {
+        $jstreeConfig = new JstreeConfig();
+        $this->assertTrue($jstreeConfig->getShowDirectories());
+        $jstreeConfig->setShowDirectories(false);
+        $this->assertFalse($jstreeConfig->getShowDirectories());
+    }
 
+    public function testShowFiles() {
+        $jstreeConfig = new JstreeConfig();
+        $this->assertTrue($jstreeConfig->getShowFiles());
+        $jstreeConfig->setShowFiles(false);
+        $this->assertFalse($jstreeConfig->getShowFiles());
+    }
     /**
      * @expectedException DomainException
      * @expectedExceptionMessage JstreeConfig not valid ( path not readable )

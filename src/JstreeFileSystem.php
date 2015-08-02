@@ -11,20 +11,21 @@ class JstreeFileSystem {
     private $basePath = null;
     private $requestedPath = '';
     private $dataNode = array(); //represent the json for the response
+    private $jstreeConfig = null;
 
     /**
-     * 
-     * @param type path to explore (using the base path set in the configs as root)
-     * @param JstreeConfig configurations
+     * Constructor
+     * @param string path to explore (using the base path set in the configs as root)
+     * @param JstreeConfig Configuration (JstreeConfig object)
      * @throws \DomainException in case of problem for the demanded path
      */
 
-    public function __construct($requestedPath = '', \isidoro\jstree\filesystem\JstreeConfig $jstreeConfig = null) {
+    public function __construct($requestedPath = '', \isidoro\jstree\filesystem\JstreeConfig &$jstreeConfig = null) {
 
         if ($jstreeConfig == null) {
             $jstreeConfig = new JstreeConfig(); //defaults
         }
-
+        $this->jstreeConfig = $jstreeConfig;
         $this->basePath = $jstreeConfig->getBasePath();
         $this->requestedPath = $requestedPath;
         $this->basePath .= $requestedPath;
@@ -44,9 +45,9 @@ class JstreeFileSystem {
 
             if (strpos($file->getRealPath(), $basePathForSecurityChecks) === 0) {
                 return true;
-            } else {
-                return false;
             }
+            return false;
+            
         });
     }
 
@@ -69,15 +70,19 @@ class JstreeFileSystem {
 
         $found = $this->finder->directories();
         //directories first
-        foreach ($this->finder->directories() as $file) {
-            $this->dataNode[] = new NodeElement($this->requestedPath, $file);
+        if ($this->jstreeConfig->getShowDirectories()) {
+            foreach ($this->finder->directories() as $file) {
+                $this->dataNode[] = new NodeElement($this->requestedPath, $file);
+            }
         }
 
-        $found = $this->finder->files();
-
-        //files after
-        foreach ($this->finder->files() as $file) {
-            $this->dataNode[] = new NodeElement($this->requestedPath, $file);
+        
+        if ($this->jstreeConfig->getShowFiles()) {
+            //files after
+            $found = $this->finder->files();
+            foreach ($this->finder->files() as $file) {
+                $this->dataNode[] = new NodeElement($this->requestedPath, $file);
+            }
         }
 
         $result = json_encode($this->dataNode);

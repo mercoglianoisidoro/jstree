@@ -6,23 +6,45 @@ class JstreeConfig {
 
     private $basePath = '../defaultPathForData/';
     private $errorMessage = ''; //used during validation
-
+    
+    
+    private $showDirectories = true;
+    private $showFiles = true;
+   
+    
     /**
      * Constructor
-     * @param array array for input data. Min Conf = array('basePath'=>'directory')
+     * It needs an array, with min conf = array('basePath'=>'directory')
+     * Other confs:
+     * showDirectories = true/false (true default)
+     * $showFiles = true/false (true default)
+     * 
+     * 
+     * @param array array for input data.
      * @return \isidoro\jstree\filesystem\JstreeConfig
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException in case no minimal conf provided
      */
 
     public function __construct($inputData = null) {
 
+        //check for $inputData array
         if (is_array($inputData) && !array_key_exists('basePath', $inputData)) {
             throw new \InvalidArgumentException("input data doesn't containt basePath");
         }
 
         if (is_array($inputData)) {
+            $this->setBasePath($inputData['basePath']); //the funcion check if valid path
+        }
 
-            $this->setBasePath($inputData['basePath']);
+        if (is_array($inputData)) {
+            if (array_key_exists('showDirectories', $inputData) && !$inputData['showDirectories']) {
+                //means $inputData['showDirectories'] == false
+                $this->showDirectories = false;
+            }
+            if (array_key_exists('showFiles', $inputData) && !$inputData['showFiles']) {
+                //means $inputData['showFiles'] == false
+                $this->showFiles = false;
+            }
         }
         return $this;
     }
@@ -54,6 +76,34 @@ class JstreeConfig {
             "JstreeConfig not valid ( the provided path is not a directory)");
         }
 
+        return $this;
+    }
+    
+    
+    
+    //others getters and setters
+     
+    function getShowDirectories() {
+        return $this->showDirectories;
+    }
+
+    function getShowFiles() {
+        return $this->showFiles;
+    }
+
+    function setShowDirectories($showDirectories) {
+        if ($showDirectories != false && $showDirectories != true) {
+            throw new InvalidArgumentException('setShowDirectories() accept only boolean values');
+        }
+        $this->showDirectories = $showDirectories;
+        return $this;
+    }
+
+    function setShowFiles($showFiles) {
+        if ($showFiles != false && $showFiles != true) {
+            throw new InvalidArgumentException('setShowFiles() accept only boolean values');
+        }
+        $this->showFiles = $showFiles;
         return $this;
     }
 
