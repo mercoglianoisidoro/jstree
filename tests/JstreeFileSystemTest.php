@@ -42,12 +42,15 @@ class JstreeFileSystemTest extends \PHPUnit_Framework_TestCase {
         $jstreeFileSystem = new JstreeFileSystem('', static::$jstreeConfig);
         $jsonResult = $jstreeFileSystem->getList();
         $arrayResul = json_decode($jsonResult, true);
-
-        $this->assertCount(3, $arrayResul);
+        $this->assertCount(4, $arrayResul);
     }
 
     public function testGetList2() {
 
+        
+        if (!is_dir(static::$dataPath . 'empty_dir')){
+            mkdir(static::$dataPath . 'empty_dir');
+        }
         $jstreeFileSystem = new JstreeFileSystem('empty_dir', static::$jstreeConfig);
         $jsonResult = $jstreeFileSystem->getList();
         $arrayResul = json_decode($jsonResult, true);
