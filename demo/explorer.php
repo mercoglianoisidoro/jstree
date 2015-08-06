@@ -12,6 +12,13 @@ use isidoro\jstree\filesystem\JstreeConfig;
 
 $config = new JstreeConfig(array('basePath' => '../defaultPathForData/')); //can throw exceptions
 
+//to avoid showing directories
+//$config->setShowDirectories(false);
+
+//to avoid showing files
+//$config->setShowFiles(false);
+
+
 $path = ''; //demanded path.
 if (isset($_GET['path'])) {
     $path = $_GET['path'];
