@@ -18,10 +18,10 @@ $config = new JstreeConfig(array('basePath'=>'defaultPathForData/'));
 //this base path will be the root path for JstreeFileSystem
 
 
-//to avoid showing directories
+//to show files
 //$config->setShowDirectories(false);
 
-//to avoid showing files
+//to show directories
 //$config->setShowFiles(false);
 
 header('Content-Type: application/json');
