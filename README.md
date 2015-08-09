@@ -41,6 +41,11 @@ Other configuration:
     //to show directories
     $config->setShowFiles(false);
 
+    //filtering on extension
+    //$config->setExtensionsToShowFromList('cpp;txt');
+
+All the configurations can be set by the array passed to the JstreeConfig constructor.
+
 ```
 
 ## Change log

@@ -12,6 +12,9 @@ use isidoro\jstree\filesystem\JstreeConfig;
 
 $config = new JstreeConfig(array('basePath' => '../defaultPathForData/')); //can throw exceptions
 
+//filtering on extension
+//$config->setExtensionsToShowFromList('cpp;txt');
+
 //to avoid showing directories
 //$config->setShowDirectories(false);
 
