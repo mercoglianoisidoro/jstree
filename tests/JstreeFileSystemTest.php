@@ -16,8 +16,8 @@ class JstreeFileSystemTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function setUp() {
-        
-        if (!is_dir(static::$dataPath . 'empty_dir')){
+
+        if (!is_dir(static::$dataPath . 'empty_dir')) {
             mkdir(static::$dataPath . 'empty_dir'); //making like that to avoid empty dir in git
         }
     }
@@ -45,6 +45,17 @@ class JstreeFileSystemTest extends \PHPUnit_Framework_TestCase {
         $jstreeFileSystem = new JstreeFileSystem('', static::$jstreeConfig);
         $jsonResult = $jstreeFileSystem->getList();
         $arrayResul = json_decode($jsonResult, true);
+        $this->assertCount(5, $arrayResul);
+    }
+
+    public function testGetList1_with_filter_on_extension_files() {
+
+        $confs = new JstreeConfig(array('basePath' => static::$dataPath,
+            'extensionsToShow' => 'php',
+        ));
+        $jstreeFileSystem = new JstreeFileSystem('', $confs);
+        $jsonResult = $jstreeFileSystem->getList();
+        $arrayResul = json_decode($jsonResult, true);
         $this->assertCount(4, $arrayResul);
     }
 
@@ -59,22 +70,21 @@ class JstreeFileSystemTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetList_onlyDirectoies() {
         $confs = array('basePath' => static::$dataPath,
-                       'showFiles' => false);
+            'showFiles' => false);
         $jstreeFileSystem = new JstreeFileSystem('', new JstreeConfig($confs));
         $jsonResult = $jstreeFileSystem->getList();
         $arrayResul = json_decode($jsonResult, true);
         $this->assertCount(3, $arrayResul);
     }
-    
+
     public function testGetList_onlyFiles() {
         $confs = array('basePath' => static::$dataPath,
-                       'showDirectories' => false);
+            'showDirectories' => false);
         $jstreeFileSystem = new JstreeFileSystem('', new JstreeConfig($confs));
         $jsonResult = $jstreeFileSystem->getList();
         $arrayResul = json_decode($jsonResult, true);
-        $this->assertCount(1, $arrayResul);
+        $this->assertCount(2, $arrayResul);
     }
-    
 
     public function testGetList3() {
 

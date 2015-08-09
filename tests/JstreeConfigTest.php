@@ -128,13 +128,48 @@ class JstreeConfigTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException DomainException
-     * @expectedExceptionMessage JstreeConfig not valid ( path not readable )
      */
-    public function testgetBasePath_with_Exception() {
+    public function test_configuration_extensionsToShow_in_constructor() {
+        $dataConfig = array('basePath' => static::$dataPath,
+            'extensionsToShow' => 'php'
+        );
+        $jstreeConfig = new JstreeConfig($dataConfig);
+        $this->assertContains('php', $jstreeConfig->getExtensionsToShow());
+    }
 
-        $jstreeConfig = new JstreeConfig();
-        $jstreeConfig->setBasePath('');
+    public function test_configuration_extensionsToShow() {
+        $dataConfig = array('basePath' => static::$dataPath);
+        $jstreeConfig = new JstreeConfig($dataConfig);
+        $jstreeConfig->setExtensionsToShow(array('php'));
+        $this->assertContains('php', $jstreeConfig->getExtensionsToShow());
+    }
+
+    public function test_configuration_extensionsToShow2() {
+        $dataConfig = array('basePath' => static::$dataPath);
+        $jstreeConfig = new JstreeConfig($dataConfig);
+        $jstreeConfig->setExtensionsToShowFromList('php');
+        $this->assertContains('php', $jstreeConfig->getExtensionsToShow());
+        $jstreeConfig->setExtensionsToShowFromList('php;txt');
+        $this->assertContains('php', $jstreeConfig->getExtensionsToShow());
+        $this->assertContains('txt', $jstreeConfig->getExtensionsToShow());
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function test_configuration_extensionsToShow_error() {
+        $dataConfig = array('basePath' => static::$dataPath);
+        $jstreeConfig = new JstreeConfig($dataConfig);
+        $jstreeConfig->setExtensionsToShow('php');
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function test_configuration_extensionsToShow_error2() {
+        $dataConfig = array('basePath' => static::$dataPath);
+        $jstreeConfig = new JstreeConfig($dataConfig);
+        $jstreeConfig->setExtensionsToShowFromList(array('php'));
     }
 
     /**
