@@ -6,12 +6,9 @@ class JstreeConfig {
 
     private $basePath = '../defaultPathForData/';
     private $errorMessage = ''; //used during validation
-    
-    
     private $showDirectories = true;
     private $showFiles = true;
-   
-    
+
     /**
      * Constructor
      * It needs an array, with min conf = array('basePath'=>'directory')
@@ -24,7 +21,6 @@ class JstreeConfig {
      * @return \isidoro\jstree\filesystem\JstreeConfig
      * @throws \InvalidArgumentException in case no minimal conf provided
      */
-
     public function __construct($inputData = null) {
 
         //check for $inputData array
@@ -39,11 +35,11 @@ class JstreeConfig {
         if (is_array($inputData)) {
             if (array_key_exists('showDirectories', $inputData) && !$inputData['showDirectories']) {
                 //means $inputData['showDirectories'] == false
-                $this->showDirectories = false;
+                $this->setShowDirectories(false);
             }
             if (array_key_exists('showFiles', $inputData) && !$inputData['showFiles']) {
                 //means $inputData['showFiles'] == false
-                $this->showFiles = false;
+                $this->setShowFiles(false);
             }
         }
         return $this;
@@ -78,11 +74,9 @@ class JstreeConfig {
 
         return $this;
     }
-    
-    
-    
+
     //others getters and setters
-     
+
     function getShowDirectories() {
         return $this->showDirectories;
     }
@@ -92,16 +86,16 @@ class JstreeConfig {
     }
 
     function setShowDirectories($showDirectories) {
-        if ($showDirectories != false && $showDirectories != true) {
-            throw new InvalidArgumentException('setShowDirectories() accept only boolean values');
+        if (!is_bool($showDirectories)) {
+            throw new \InvalidArgumentException('setShowDirectories() accept only boolean values');
         }
         $this->showDirectories = $showDirectories;
         return $this;
     }
 
     function setShowFiles($showFiles) {
-        if ($showFiles != false && $showFiles != true) {
-            throw new InvalidArgumentException('setShowFiles() accept only boolean values');
+        if (!is_bool($showFiles)) {
+            throw new \InvalidArgumentException('setShowFiles() accept only boolean values');
         }
         $this->showFiles = $showFiles;
         return $this;
