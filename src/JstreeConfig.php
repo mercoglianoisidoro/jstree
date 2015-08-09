@@ -4,18 +4,22 @@ namespace isidoro\jstree\filesystem;
 
 class JstreeConfig {
 
+//TODO:      * filterRegex = regex to filter name file
+
+
     private $basePath = '../defaultPathForData/';
     private $errorMessage = ''; //used during validation
     private $showDirectories = true;
     private $showFiles = true;
+    private $extensionsToShow = null;
 
     /**
      * Constructor
      * It needs an array, with min conf = array('basePath'=>'directory')
      * Other confs:
      * showDirectories = true/false (true default)
-     * $showFiles = true/false (true default)
-     * 
+     * showFiles = true/false (true default)
+     * extensionsToShow = list of file extensions to show (semi colon list separated; case insensitive)
      * 
      * @param array array for input data.
      * @return \isidoro\jstree\filesystem\JstreeConfig
@@ -29,19 +33,28 @@ class JstreeConfig {
         }
 
         if (is_array($inputData)) {
+
+            //basePath conf
             $this->setBasePath($inputData['basePath']); //the funcion check if valid path
+            //showDirectories 
+            if (array_key_exists('showDirectories', $inputData) && !$inputData['showDirectories']) {
+                //means $inputData['showDirectories'] == false, otherwise true
+                $this->setShowDirectories($inputData['showDirectories']);
+            }
+
+            //showFiles
+            if (array_key_exists('showFiles', $inputData) && !$inputData['showFiles']) {
+                //means $inputData['showFiles'] == false, otherwise true
+                $this->setShowFiles($inputData['showFiles']);
+            }
+
+            //extensionsToShow
+            if (array_key_exists('extensionsToShow', $inputData)) {
+                $this->setExtensionsToShowFromList($inputData['extensionsToShow']);
+            }
         }
 
-        if (is_array($inputData)) {
-            if (array_key_exists('showDirectories', $inputData) && !$inputData['showDirectories']) {
-                //means $inputData['showDirectories'] == false
-                $this->setShowDirectories(false);
-            }
-            if (array_key_exists('showFiles', $inputData) && !$inputData['showFiles']) {
-                //means $inputData['showFiles'] == false
-                $this->setShowFiles(false);
-            }
-        }
+
         return $this;
     }
 
@@ -98,6 +111,31 @@ class JstreeConfig {
             throw new \InvalidArgumentException('setShowFiles() accept only boolean values');
         }
         $this->showFiles = $showFiles;
+        return $this;
+    }
+
+    function getExtensionsToShow() {
+        return $this->extensionsToShow;
+    }
+
+    /**
+     * 
+     * @param string Semi colon separated list of extensions file to show
+     * @return \isidoro\jstree\filesystem\JstreeConfig
+     */
+    function setExtensionsToShowFromList($extensionsToShow) {
+        if (!is_string($extensionsToShow)) {
+            throw new \InvalidArgumentException('setExtensionsToShowFromList() accept only string values');
+        }
+        $this->extensionsToShow = explode(';', $extensionsToShow);
+        return $this;
+    }
+
+    function setExtensionsToShow($extensionsToShow) {
+        if (!is_array($extensionsToShow)) {
+            throw new \InvalidArgumentException('setExtensionsToShow() accept only array values');
+        }
+        $this->extensionsToShow = $extensionsToShow;
         return $this;
     }
 

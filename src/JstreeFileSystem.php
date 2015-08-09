@@ -19,7 +19,6 @@ class JstreeFileSystem {
      * @param JstreeConfig Configuration (JstreeConfig object)
      * @throws \DomainException in case of problem for the demanded path
      */
-
     public function __construct($requestedPath = '', \isidoro\jstree\filesystem\JstreeConfig &$jstreeConfig = null) {
 
         if ($jstreeConfig == null) {
@@ -47,7 +46,6 @@ class JstreeFileSystem {
                 return true;
             }
             return false;
-            
         });
     }
 
@@ -76,10 +74,19 @@ class JstreeFileSystem {
             }
         }
 
-        
+
         if ($this->jstreeConfig->getShowFiles()) {
             //files after
             $found = $this->finder->files();
+
+            //extensions file
+            $extensionsToShow = $this->jstreeConfig->getExtensionsToShow();
+            if (isset($extensionsToShow) && is_array($extensionsToShow)) {
+                foreach ($extensionsToShow as $extensionToShow) {
+                    $found->name("#." . $extensionToShow . "$#i");
+                }
+            }
+
             foreach ($this->finder->files() as $file) {
                 $this->dataNode[] = new NodeElement($this->requestedPath, $file);
             }
