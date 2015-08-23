@@ -1,0 +1,43 @@
+{
+  "name": "divTOjstree",
+  "version": "0.2.0",
+  "authors": [
+    "Mercogliano Isidoro <mercogliano.isidoro@gmail.com>"
+  ],
+  "description": "javascript/requirejs module converting HTML elements to jstree elements",
+  "main": "divTOjstree",
+  "keywords": [
+    "jstree"
+  ],
+  "license": "MIT",
+  "homepage": "www.mercoglianoisidoro.com",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mercoglianoisidoro/divTOjstree.git"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "jstree": "~3.2.0",
+    "requirejs": "~2.1.20"
+  },
+  "devDependencies": {
+    "qunit": "~1.18.0"
+  },
+  "_release": "0.2.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.2.0",
+    "commit": "62e3d87dee5bdccffcfc6e5d0fc5a7d4fe993924"
+  },
+  "_source": "git://github.com/mercoglianoisidoro/divTOjstree.git",
+  "_target": "~0.2.0",
+  "_originalSource": "divTOjstree",
+  "_direct": true
+}

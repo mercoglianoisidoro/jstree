@@ -1,0 +1,5 @@
+{
+    "require": {
+        "isidoro/jstree": "^1.1"
+    }
+}

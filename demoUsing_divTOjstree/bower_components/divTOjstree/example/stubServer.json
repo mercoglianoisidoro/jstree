@@ -1,0 +1,13 @@
+[
+    {
+        "text": "directory",
+        "id": "\/directory",
+        "children": true,
+        "icon": "jstree-folder"
+    }, {
+        "text": "hello world",
+        "id": "\/hello world",
+        "children": false,
+        "icon": "jstree-file"
+    }
+]

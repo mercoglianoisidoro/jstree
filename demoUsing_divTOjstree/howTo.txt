@@ -1,0 +1,8 @@
+
+bower install divTOjstree
+composer require isidoro/jstree
+
+then create file:
+index.html
+explorer.php
+directory js 
