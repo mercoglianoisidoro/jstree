@@ -16,9 +16,9 @@ class NodeElement {
     private $type;
     private $requestedPath;
 
-    public function __construct($requestedPath = '', \Symfony\Component\Finder\SplFileInfo $splFileInfo = null) {
+    public function __construct($requestedPath = '', \Symfony\Component\Finder\SplFileInfo $splFileInfo = null,  $considerOnlyDirectoiesAsChildren = false) {
         if (isset($splFileInfo)) {
-            $this->createFromPathAndSplInfo($requestedPath, $splFileInfo);
+            $this->createFromPathAndSplInfo($requestedPath, $splFileInfo,$considerOnlyDirectoiesAsChildren);
         }//else can be made afterwords (to use always the same instance and reset it)
     }
 
@@ -33,7 +33,7 @@ class NodeElement {
         return $this->requestedPath;
     }
 
-    public function createFromPathAndSplInfo($requestedPath, \Symfony\Component\Finder\SplFileInfo $splFileInfo) {
+    public function createFromPathAndSplInfo($requestedPath, \Symfony\Component\Finder\SplFileInfo $splFileInfo, $considerOnlyDirectoiesAsChildren = false) {
 
         $this->setRequestedPath($requestedPath);
 
@@ -46,14 +46,29 @@ class NodeElement {
             $this->setChildren(false);
         } else {
 
-//            $fileInDir = scandir($splFileInfo->getPathname());
-            if (count(scandir($splFileInfo->getPathname())) > 2) {
-                $this->setChildren(true);
+//          $fileInDir = scandir($splFileInfo->getPathname());
+            
+            
+            $glob = glob($splFileInfo->getPathname() . DIRECTORY_SEPARATOR . '*');
+            if (count($glob) > 0) {
+                if ($considerOnlyDirectoiesAsChildren) {
+                    $this->setChildren(false);
+                    foreach ($glob as $value) {
+                        if (is_dir($value)) {
+                            $this->setChildren(true);
+                            break;
+                        }
+                    }
+                } else {
+                    $this->setChildren(true);
+                }
             } else {
                 $this->setChildren(false);
             }
 
             $this->setIcon('jstree-folder');
+            
+            
         }
     }
 

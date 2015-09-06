@@ -18,7 +18,12 @@ class JstreeFileSystemTest extends \PHPUnit_Framework_TestCase {
     public function setUp() {
 
         if (!is_dir(static::$dataPath . 'empty_dir')) {
-            mkdir(static::$dataPath . 'empty_dir'); //making like that to avoid empty dir in git
+            mkdir(static::$dataPath . 'empty_dir'); //to avoid empty dir in git
+        }
+        
+        $dir2 = static::$dataPath . 'multiple_files/empty_dir';
+         if (!is_dir($dir2)) {
+            mkdir($dir2); //to avoid empty dir in git
         }
     }
 
@@ -49,7 +54,7 @@ class JstreeFileSystemTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGetList1_with_filter_on_extension_files() {
-
+  
         $confs = new JstreeConfig(array('basePath' => static::$dataPath,
             'extensionsToShow' => 'php',
         ));
@@ -58,6 +63,8 @@ class JstreeFileSystemTest extends \PHPUnit_Framework_TestCase {
         $arrayResul = json_decode($jsonResult, true);
         $this->assertCount(4, $arrayResul);
     }
+
+    
 
     public function testGetList2() {
 
@@ -75,6 +82,15 @@ class JstreeFileSystemTest extends \PHPUnit_Framework_TestCase {
         $jsonResult = $jstreeFileSystem->getList();
         $arrayResul = json_decode($jsonResult, true);
         $this->assertCount(3, $arrayResul);
+    }
+
+    public function testGetList_onlyDirectoies2() {
+        $confs = array('basePath' => static::$dataPath,
+            'showFiles' => false);
+        $jstreeFileSystem = new JstreeFileSystem('multiple_files', new JstreeConfig($confs));
+        $jsonResult = $jstreeFileSystem->getList();
+        $arrayResul = json_decode($jsonResult, true);
+        $this->assertCount(2, $arrayResul);
     }
 
     public function testGetList_onlyFiles() {

@@ -70,7 +70,7 @@ class JstreeFileSystem {
         //directories first
         if ($this->jstreeConfig->getShowDirectories()) {
             foreach ($this->finder->directories() as $file) {
-                $this->dataNode[] = new NodeElement($this->requestedPath, $file);
+                $this->dataNode[] = new NodeElement($this->requestedPath, $file,!$this->jstreeConfig->getShowFiles());
             }
         }
 
