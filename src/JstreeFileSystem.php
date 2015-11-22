@@ -66,10 +66,10 @@ class JstreeFileSystem {
 
         $this->finder->depth($width)->sortByName();
 
-        $found = $this->finder->directories();
+        $found = $this->finder->directories()->followLinks();
         //directories first
         if ($this->jstreeConfig->getShowDirectories()) {
-            foreach ($this->finder->directories() as $file) {
+            foreach ($this->finder->directories()->followLinks() as $file) {
                 $this->dataNode[] = new NodeElement($this->requestedPath, $file,!$this->jstreeConfig->getShowFiles());
             }
         }
@@ -77,7 +77,7 @@ class JstreeFileSystem {
 
         if ($this->jstreeConfig->getShowFiles()) {
             //files after
-            $found = $this->finder->files();
+            $found = $this->finder->files()->followLinks();
 
             //extensions file
             $extensionsToShow = $this->jstreeConfig->getExtensionsToShow();
