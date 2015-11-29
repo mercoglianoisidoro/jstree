@@ -90,13 +90,13 @@ class JstreeFileSystem {
             foreach ($this->finder->files()->followLinks() as $file) {
                 $this->dataNode[] = new NodeElement($this->requestedPath, $file);
             }
-            if ($this->jstreeConfig->isSetCallbackToChangeNodesText()) {
-                foreach ($this->dataNode as &$element) {
-                    $element->setText($this->jstreeConfig->changeNodesText($element->getText()));
-                }
-            }
         }
 
+        if ($this->jstreeConfig->isSetCallbackToChangeNodesText()) {
+            foreach ($this->dataNode as &$element) {
+                $element->setText($this->jstreeConfig->changeNodesText($element->getText()));
+            }
+        }
         $result = json_encode($this->dataNode);
 
         if ($result !== false) {
