@@ -64,7 +64,7 @@ class JstreeFileSystem {
      */
     public function getList($width = 0) {
 
-        $this->finder->depth($width)->sortByName();
+        $this->finder->depth($width)->sortByName()->followLinks();
 
         $found = $this->finder->directories()->followLinks();
         //directories first
@@ -87,8 +87,13 @@ class JstreeFileSystem {
                 }
             }
 
-            foreach ($this->finder->files() as $file) {
+            foreach ($this->finder->files()->followLinks() as $file) {
                 $this->dataNode[] = new NodeElement($this->requestedPath, $file);
+            }
+            if ($this->jstreeConfig->isSetCallbackToChangeNodesText()) {
+                foreach ($this->dataNode as &$element) {
+                    $element->setText($this->jstreeConfig->changeNodesText($element->getText()));
+                }
             }
         }
 

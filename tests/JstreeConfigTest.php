@@ -32,6 +32,22 @@ class JstreeConfigTest extends \PHPUnit_Framework_TestCase {
         $this->assertTrue($jstreeConfig->getShowDirectories());
         $this->assertTrue($jstreeConfig->getShowFiles());
     }
+    
+       public function testConstructor_with_simpleArray_and_setCallbackToChangeNodesText() {
+
+        $jstreeConfig = new JstreeConfig(array('basePath' => static::$dataPath));
+
+        $this->assertEquals('isidoro', $jstreeConfig->changeNodesText('isidoro'));
+        $this->assertFalse( $jstreeConfig->isSetCallbackToChangeNodesText());
+        
+        $jstreeConfig->setCallbackToChangeNodesText(function ($test){
+            return substr($test, 3);
+        });
+        
+        $this->assertTrue( $jstreeConfig->isSetCallbackToChangeNodesText());
+        $this->assertEquals('doro', $jstreeConfig->changeNodesText('isidoro'));
+        
+    }
 
     public function testConstructor_withArray_showDirectories_option() {
 

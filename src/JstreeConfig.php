@@ -12,6 +12,7 @@ class JstreeConfig {
     private $showDirectories = true;
     private $showFiles = true;
     private $extensionsToShow = null;
+    private $callbackToChangeNodesText = null;
 
     /**
      * Constructor
@@ -66,6 +67,27 @@ class JstreeConfig {
         $this->isValidPath($basePath);
         $this->basePath = $basePath;
         return $this;
+    }
+
+    public function setCallbackToChangeNodesText(callable $changeText) {
+        $this->callbackToChangeNodesText = $changeText;
+        
+    }
+    public function getCallbackToChangeNodesText() {
+        return $this->callbackToChangeNodesText;
+    }
+    
+    public function isSetCallbackToChangeNodesText() {
+         if (isset($this->callbackToChangeNodesText)){
+            return true;
+        }
+        return false;
+    }
+    public function changeNodesText($text) {
+        if (!isset($this->callbackToChangeNodesText)){
+            return $text;
+        }
+        return call_user_func($this->callbackToChangeNodesText, $text);
     }
 
     /**

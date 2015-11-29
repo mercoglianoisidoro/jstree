@@ -101,6 +101,35 @@ class JstreeFileSystemTest extends \PHPUnit_Framework_TestCase {
         $arrayResul = json_decode($jsonResult, true);
         $this->assertCount(2, $arrayResul);
     }
+    
+    
+    public function testGetList_changeName_by_provided_callback() {
+        
+        $confs = array('basePath' => static::$dataPath,
+            'showDirectories' => false);
+        
+        $jstreeConfs = new JstreeConfig($confs);
+        
+        $jstreeFileSystem = new JstreeFileSystem('', $jstreeConfs);
+        $jsonResult = $jstreeFileSystem->getList();
+        $arrayResul = json_decode($jsonResult, true);
+        $this->assertCount(2, $arrayResul);
+        $this->assertEquals('file.php', $arrayResul[0]['text']);
+        
+        
+        $jstreeConfs->setCallbackToChangeNodesText(function ($test){
+            return substr($test, 3);
+        });        
+        $jstreeFileSystem = new JstreeFileSystem('', $jstreeConfs);
+        $jsonResult = $jstreeFileSystem->getList();
+        $arrayResul = json_decode($jsonResult, true);
+        $this->assertCount(2, $arrayResul);
+        $this->assertEquals('e.php', $arrayResul[0]['text']); //now the name must be changed
+        
+        
+    }
+
+    
 
     public function testGetList3() {
 
